@@ -5,7 +5,7 @@ export const appSlice = createSlice({
     initialState: {
         products: null,
         categories: null,
-        selectedCategory: "Home",
+        selectedCategory: "Toys",
         selectedFilters: null
     },
     reducers: {
@@ -16,7 +16,7 @@ export const appSlice = createSlice({
             state.categories = action.payload
         },
         updateSelectedFilters: (state, action) => {
-            state.selectedFilters = {...state.selectedFilters, ...action.payload}
+            state.selectedFilters = action.payload
         }
     }
 })
@@ -53,21 +53,28 @@ export const getCategories = (products) => {
 
 export const updateFilter = ({ selectedFilters, category, field, value }) => {
     return async dispatch => {
-        const tempSelectedFilters = JSON.parse(JSON.stringify(selectedFilters)) ?? {}
-        //        const tempSelectedFilters = JSON.parse(JSON.stringify(selectedFilters))
-        if (!!tempSelectedFilters?.[category]?.[field]?.includes(value))
-            tempSelectedFilters[category][field].splice(tempSelectedFilters[category][field].indexOf(value), 1)
-            // tempSelectedFilters[category][field][value] = !tempSelectedFilters[category][field][value]
-        else
-            tempSelectedFilters[category] = {
-            ...tempSelectedFilters?.[category],
-            [field]: {
-                ...tempSelectedFilters?.[category]?.[field],
-                [value]: true
+        let tempSelectedFilters = JSON.parse(JSON.stringify(selectedFilters)) ?? {}
+
+        if (!!tempSelectedFilters?.[category]?.[field]){
+            if (!!tempSelectedFilters?.[category]?.[field]?.includes(value)) {
+                tempSelectedFilters[category][field].splice(tempSelectedFilters[category][field].indexOf(value), 1)
+                if (tempSelectedFilters[category][field].length === 0) delete tempSelectedFilters[category][field]
+                if (Object.values(tempSelectedFilters[category]).length === 0) delete tempSelectedFilters[category]
+                if (Object.values(tempSelectedFilters).length === 0) tempSelectedFilters = null
             }
+            else
+                tempSelectedFilters[category][field].push(value)
         }
-        //
-        console.log(tempSelectedFilters)
+        else {
+            tempSelectedFilters[category] = {
+                ...tempSelectedFilters?.[category] ?? {},
+                [field]: [
+                    ...tempSelectedFilters?.[category]?.[field] ?? [],
+                    value
+                ]
+            }
+
+        }
         dispatch(updateSelectedFilters(tempSelectedFilters))
     }
 }

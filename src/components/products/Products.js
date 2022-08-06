@@ -3,8 +3,8 @@ import {useSelector} from "react-redux";
 import c from "./Products.module.scss"
 
 const Products = () => {
-    const { products } = useSelector((state) => state.app)
-
+    const { products, selectedCategory, selectedFilters } = useSelector((state) => state.app)
+    const [productsFiltered, setProductsFiltered] = useState([])
     // brand: "Hudson Group"
     // category: "Beauty"
     // color: "grey"
@@ -16,9 +16,34 @@ const Products = () => {
     // sections: 92371
     // subCategory: "Computers"
 
+    useEffect(()=>{
+        if (!products || !products.length > 0) return
+
+        const filterProducts = (product) => {
+            if (product.category !== selectedCategory) return false
+
+            if (selectedFilters){
+                const filters = selectedFilters[selectedCategory]
+
+                const filterKeys = Object.keys(filters)
+                const productKeys = Object.keys(product)
+
+                let coincidencesKeys = filterKeys.filter(val => productKeys.includes(val));
+                if (!coincidencesKeys) return false
+
+                const coincidences = coincidencesKeys.filter(key => filters[key].includes(product[key]))
+                if (coincidences.length === coincidencesKeys.length) return true
+            }else return true
+
+        }
+
+        const filteredProducts = products.filter(filterProducts)
+        setProductsFiltered(filteredProducts)
+    }, [selectedFilters, products])
+
     const productView = (product) => {
       return (
-          <div className={c["product-item"]}>
+          <div key={product.id} className={c["product-item"]}>
               <div className={c["product-item__img-container"]}><img src={product.image} alt={""}/></div>
               <div className={c["product-item__title"]}>{product.name}</div>
               <div className={c["product-item__footer"]}>
@@ -32,7 +57,7 @@ const Products = () => {
     }
     return (
         <div className={c["products-container"]}>
-            {products && products.map(product => productView(product))}
+            {productsFiltered && productsFiltered.map(product => productView(product))}
         </div>
     );
 }

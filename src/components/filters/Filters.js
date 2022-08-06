@@ -2,19 +2,22 @@ import React, {useEffect} from 'react';
 import {useSelector, useDispatch} from "react-redux";
 import c from "./Filters.module.scss";
 import {updateFilter} from "../../slices/appSlice";
+import RangeSlider from "../rangeSlider/RangeSlider";
 
 const Filters = () => {
     const dispatch = useDispatch()
     const { categories, selectedCategory, selectedFilters } = useSelector(state=>state.app)
 
-    const filterClickHandle = ({field, value}) => {
+    const filterHandle = ({field, value, type}) => {
         dispatch(updateFilter({
             selectedFilters: selectedFilters,
             category: selectedCategory,
             field,
-            value
+            value,
+            type
         }))
     }
+
 
 
     const getFilterView = (name, values) => {
@@ -36,16 +39,27 @@ const Filters = () => {
                 type = null
         }
 
-        return type && <div>
+        return type && <div key={name}>
             <p>{name}</p>
-            <div className={c["filter-" + type]}>{values.map(value=>{
-                return(
-                    <>
-                        <input type={type} onClick={()=>filterClickHandle({field:name, value})}/>
-                        <label>{value}</label>
-                    </>
-                )
-            })}</div>
+            <div className={c["filter-" + type]}>
+                {type === "checkbox" && values.map(value=>{
+                    return(
+                        <div key={value}>
+                            <input type={type} onClick={()=>filterHandle({field:name, value, type})}/>
+                            <label>{value}</label>
+                        </div>
+                    )
+                })}
+                {type === "range" && <RangeSlider
+                        min={100}
+                        max={200}
+                        // min={Math.min(...values)}
+                        // max={Math.max(...values)}
+                        onChange={({ min, max }) => filterHandle({field:name, value:[min, max], type})}
+                    />
+                }
+                    {/*<input type="range" min={Math.min(values)} max={Math.max(values)} multiple={true}/>*/}
+            </div>
         </div>
 
     }
