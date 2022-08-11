@@ -5,9 +5,11 @@
 
   display: flex;
   justify-content: space-between;
-  align-items: space-between;
+  align-items: center;
   flex-direction: column;
   text-align: center;
+
+  overflow: hidden;
 
   @media only screen and (min-width: 768px) {
     flex-direction: row;
@@ -25,32 +27,96 @@
   }
 
   &__content {
-    padding: 35px;
+    color: #fff;
+
+
+    @media only screen and (min-width: 768px) {
+      max-width: 33%;
+    }
+
+    &__title{
+      padding: 41px 35px 12px 35px;
+      font-size: 28px;
+      font-weight: 600;
+      line-height: 36px;
+      letter-spacing: 0em;
+      text-align: center;
+
+      @media only screen and (min-width: 768px) {
+        padding: 41px 0 12px 0;
+        text-align: left;
+      }
+
+    }
+    &__desc{
+      padding: 0 35px 52px 35px;
+      font-size: 15px;
+      font-weight: 400;
+      line-height: 22px;
+      letter-spacing: 0em;
+      text-align: center;
+
+      @media only screen and (min-width: 768px) {
+        padding: 0;
+        text-align: left;
+      }
+    }
   }
 
   &__btn{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 232px;
+    height: 54px;
+    border: none;
+
     @media only screen and (min-width: 768px) {
       -webkit-box-ordinal-group: 3;
       -moz-box-ordinal-group: 3;
       -ms-flex-order: 3;
       -webkit-order: 3;
       order: 3;
+      width: 282px;
+      height: 78px;
+    }
+    & div{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 45%;
+    }
+    & p{
+      font-size: 15px;
+      font-weight: 400;
+      line-height: 19px;
+      letter-spacing: 0.02em;
+      text-align: left;
+
+      width: 55%;
     }
   }
 
   &__img{
     display: flex;
     align-items: flex-end;
-    & img{
-      // height: 100%;
-      width: 100%;
-    }
+
     @media only screen and (min-width: 768px) {
       -webkit-box-ordinal-group: 2;
       -moz-box-ordinal-group: 2;
       -ms-flex-order: 2;
       -webkit-order: 2;
       order: 2;
+      height: 100%;
+    }
+
+    & img{
+      width: 100%;
+
+      @media only screen and (min-width: 768px) {
+        object-fit: cover;
+        height: 100%;
+      }
     }
   }
 }
