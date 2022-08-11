@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useSelector} from "react-redux";
 import c from "./Products.module.scss"
 
-const Products = () => {
+export default function Products() {
     const { products, selectedCategory, selectedFilters } = useSelector((state) => state.app)
     const [productsFiltered, setProductsFiltered] = useState([])
     // brand: "Hudson Group"
@@ -61,5 +61,3 @@ const Products = () => {
         </div>
     );
 }
-
-export default Products;

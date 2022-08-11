@@ -2,9 +2,9 @@ import React, {useEffect} from 'react';
 import {useSelector, useDispatch} from "react-redux";
 import c from "./Filters.module.scss";
 import {updateFilter} from "../../slices/appSlice";
-import RangeSlider from "../rangeSlider/RangeSlider";
+// import { Slider, RangeSlider } from 'rsuite';
 
-const Filters = () => {
+export default function Filters() {
     const dispatch = useDispatch()
     const { categories, selectedCategory, selectedFilters } = useSelector(state=>state.app)
 
@@ -50,15 +50,15 @@ const Filters = () => {
                         </div>
                     )
                 })}
-                {type === "range" && <RangeSlider
+                {/* {type === "range" && <RangeSlider
                         min={100}
                         max={200}
-                        // min={Math.min(...values)}
-                        // max={Math.max(...values)}
+                         min={Math.min(...values)}
+                         max={Math.max(...values)}
                         onChange={({ min, max }) => filterHandle({field:name, value:[min, max], type})}
                     />
-                }
-                    {/*<input type="range" min={Math.min(values)} max={Math.max(values)} multiple={true}/>*/}
+                } */}
+                    {type === "range" && <input type="range" min={Math.min(values)} max={Math.max(values)} multiple={true}/>}
             </div>
         </div>
 
@@ -75,5 +75,3 @@ const Filters = () => {
         </div>
     );
 }
-
-export default Filters

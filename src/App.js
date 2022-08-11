@@ -1,9 +1,12 @@
 import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchProducts, getCategories} from "./slices/appSlice";
+import Header from "./components/header/Header";
+import SubHeader from "./components/subHeader/SubHeader";
 import Products from "./components/products/Products";
 import Filters from "./components/filters/Filters";
 import c from "./App.module.scss";
+import Banner from "./components/banner/Banner";
 
 
 function App() {
@@ -23,10 +26,13 @@ function App() {
 
   return (
     <div className="App">
-      <div className={c["catalog-container"]}>
+      <Header/>
+      <SubHeader/>
+      <Banner/>
+      {/* <div className={c["catalog-container"]}>
         <Filters/>
         <Products/>
-      </div>
+      </div> */}
     </div>
   );
 }
