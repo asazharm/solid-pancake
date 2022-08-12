@@ -33,6 +33,7 @@ export const getCategories = (products) => {
     return async dispatch => {
         let fields = {}
 
+
         products.forEach(product => {
             const keys = Object.keys(product)
             if (!(product.category in fields)) fields[product.category] = {"filters":{}}
@@ -45,6 +46,7 @@ export const getCategories = (products) => {
         Object.keys(fields).forEach(category => {
             Object.keys(fields[category]["filters"]).forEach(key=>fields[category]["filters"][key] = [...new Set(fields[category]["filters"][key])])
         })
+        console.log(fields);
 
         dispatch(loadCategories(fields))
     }
