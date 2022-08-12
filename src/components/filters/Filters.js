@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {useSelector, useDispatch} from "react-redux";
 import c from "./Filters.module.scss";
-import {updateFilter} from "../../slices/appSlice";
+import {updateFilter, resetFilters} from "../../slices/appSlice";
 // import { Slider, RangeSlider } from 'rsuite';
 
-export default function Filters() {
+export default function Filters(props) {
+    const { setFiltersOpened } = props
     const dispatch = useDispatch()
     const { categories, selectedCategory, selectedFilters } = useSelector(state=>state.app)
     const defaultFiltersOrder = ["subCategory", "brand", "price", "sections", "distance", "heatingArea", "color"]
@@ -17,6 +18,10 @@ export default function Filters() {
             value,
             type
         }))
+    }
+
+    const resetFilterHandle = () => {
+        dispatch(resetFilters())
     }
 
     const getFilterView = (name, values) => {
@@ -39,7 +44,7 @@ export default function Filters() {
         }
 
         return type && 
-        <div key={name} className={`${c["filter"]}`}>
+        <div key={name} className={`${c["filter"]} ${expandedFilters?.includes(name) ? c["filter_active"] : "" }`}>
             <div className={`${c["filter__header"]} ${expandedFilters?.includes(name) ? c["filter__header_active"] : "" }`} onClick={()=>{
                 let temp = JSON.parse(JSON.stringify(expandedFilters))
 
@@ -58,7 +63,7 @@ export default function Filters() {
                 {type === "checkbox" && values.map(value=>{
                     return(
                         <div key={value}>
-                            <input type={type} onClick={()=>filterHandle({field:name, value, type})}/>
+                            <input type={type} onClick={()=>filterHandle({field:name, value, type})} checked={selectedFilters?.[selectedCategory]?.[name]?.includes(value)}/>
                             <label>{value}</label>
                         </div>
                     )
@@ -79,13 +84,27 @@ export default function Filters() {
 
 
     return (
-        <div className={c["filters-container"]}>
-            <p>Фильтры</p>
-            {categories && Object.keys(categories).map(category => {
-                if (category === selectedCategory)
-                    return defaultFiltersOrder.map(key=>getFilterView(key, categories[category]["filters"][key]))
-                return null
-            })}
+        <div className={c["filters"]}>
+            <div className={c["filters__container"]}>
+                <p>Фильтры</p>
+                {categories && Object.keys(categories).map(category => {
+                    if (category === selectedCategory)
+                        return defaultFiltersOrder.map(key=>getFilterView(key, categories[category]["filters"][key]))
+                    return null
+                })}
+            </div>
+            <div className={c["filters__actions"]}>
+                <button className={c["filters__actions__apply"]} onClick={()=>{setFiltersOpened(false)}}> 
+                    <div>
+                        <img src="images/arrow.svg" alt="" />
+                    </div>
+                    <p>Применить</p>
+                </button>
+                <button className={c["filters__actions__reset"]} onClick={()=>{
+                        resetFilterHandle()
+                        setFiltersOpened(false)
+                    }}><p>Сбросить</p><img src='images/close.svg' alt='arrow'/></button>
+            </div>
         </div>
     );
 }

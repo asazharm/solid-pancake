@@ -1,23 +1,85 @@
-.filters-container{
+.filters{
   position: absolute;
   top: 0;
   left: 0;
   width: 100vw;
-  background: #F4F4F4;
-  padding: 60px 20px 0 20px;
 
   @media only screen and (min-width: 768px) {
     position: relative;
     max-width: 355px;
   }
 
-  &>p:first-child{
-    font-size: 25px;
-    font-weight: 400;
-    line-height: 32px;
-    letter-spacing: 0em;
-    text-align: left;
-    margin: 0;
+  &__container{
+    padding: 60px 20px 0 20px;
+    background: #F4F4F4;
+
+    &>p:first-child{
+      font-size: 25px;
+      font-weight: 400;
+      line-height: 32px;
+      letter-spacing: 0em;
+      text-align: left;
+      margin: 0;
+    }
+  }
+
+
+  &__actions{
+    width: calc(100% - 66px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 115px;
+    background: #FBFBFB;
+    padding: 0 44px 0 22px;
+
+    @media only screen and (min-width: 768px) {
+      display: none;
+    }
+
+    &__apply{
+      background: #38D3E8;
+      border: none;
+      border-radius: 2px;
+      width: 203px;
+      height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-right: 44px;
+      padding-left: 28px;
+      & img{
+        filter: brightness(0) saturate(100%) invert(94%) sepia(100%) saturate(0%) hue-rotate(335deg) brightness(107%) contrast(107%);
+      }
+      & p{
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 20px;
+        letter-spacing: 0.02em;
+        text-align: left;
+
+        color: #fff;
+      }
+    }
+
+    &__reset{
+      border: none;
+      background: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 105px;
+      height: 20px;
+      & p{
+        color: #7E838C;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 20px;
+        letter-spacing: 0em;
+        text-align: left;
+      }
+    }
+
   }
 }
 
@@ -44,7 +106,7 @@
   &__body{
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.3s ease-in-out;
+    transition: 0.3s ease-in-out;
     display: flex;
     flex-direction: column;
     gap: 22px;
@@ -59,12 +121,11 @@
         line-height: 23px;
         letter-spacing: 0em;
         text-align: left;
-        
       }
     }
-
     &_active{
       max-height: 60vh;
+      padding-bottom: 40px;
     }
 
     &_type{
@@ -92,10 +153,4 @@
       }
     }
   }
-
-  // &.active{
-    // & .filter__body{
-    //   display: block !important;
-    // }
-  // }
 }

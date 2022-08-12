@@ -35,7 +35,7 @@ function App() {
       {(isDesktopOrLaptop || !filtersOpened)  && <Banner/>}
       {isDesktopOrLaptop && <div className={c["selected-category"]}>{selectedCategory}</div>}
       <div className={c["catalog-container"]}>
-        {((!isDesktopOrLaptop && filtersOpened) || isDesktopOrLaptop)  && <Filters isDesktopOrLaptop={isDesktopOrLaptop} opened={filtersOpened}/>}
+        {((!isDesktopOrLaptop && filtersOpened) || isDesktopOrLaptop)  && <Filters isDesktopOrLaptop={isDesktopOrLaptop} opened={filtersOpened} setFiltersOpened={setFiltersOpened}/>}
         {(isDesktopOrLaptop || !filtersOpened)  && <Products isDesktopOrLaptop={isDesktopOrLaptop} setFiltersOpened={setFiltersOpened}/>}
       </div>
     </div>

@@ -17,6 +17,9 @@ export const appSlice = createSlice({
         },
         updateSelectedFilters: (state, action) => {
             state.selectedFilters = action.payload
+        },
+        resetFilters: (state, action) =>{
+            state.selectedFilters = null
         }
     }
 })
@@ -81,8 +84,9 @@ export const updateFilter = ({ selectedFilters, category, field, value }) => {
     }
 }
 
+
 // this is for dispatch
-export const { loadProducts, loadCategories, updateSelectedFilters } = appSlice.actions;
+export const { loadProducts, loadCategories, updateSelectedFilters, resetFilters } = appSlice.actions;
 
 // this is for configureStore
 export default appSlice.reducer;
