@@ -31,11 +31,13 @@ export default function Filters(props) {
             case "price":
                 type = "range"
                 break
+            case "color":
+                type = "color-checkbox"
+                break
             case "brand":
             case "sections":
             case "distance":
             case "subCategory":
-            case "color":
             case "heatingArea":
                 type = "checkbox"
                 break
@@ -60,10 +62,10 @@ export default function Filters(props) {
                 <img src="images/arrow_bot.svg" alt="arrow"/>
             </div>
             <div className={`${c["filter__body"]} ${expandedFilters?.includes(name) ? c["filter__body_active"] : "" } ${c["filter__body_type_" + type]}`}>
-                {type === "checkbox" && values.map(value=>{
+                {(type === "checkbox" || type === "color-checkbox") && values.map(value=>{
                     return(
                         <div key={value}>
-                            <input type={type} onClick={()=>filterHandle({field:name, value, type})} checked={selectedFilters?.[selectedCategory]?.[name]?.includes(value)}/>
+                            <input type={"checkbox"} style={{"--color": value}} onClick={()=>filterHandle({field:name, value, type})} checked={selectedFilters?.[selectedCategory]?.[name]?.includes(value)}/>
                             <label>{value}</label>
                         </div>
                     )
@@ -86,7 +88,7 @@ export default function Filters(props) {
     return (
         <div className={c["filters"]}>
             <div className={c["filters__container"]}>
-                <p>Фильтры</p>
+                <p>Фильтры</p>  
                 {categories && Object.keys(categories).map(category => {
                     if (category === selectedCategory)
                         return defaultFiltersOrder.map(key=>getFilterView(key, categories[category]["filters"][key]))

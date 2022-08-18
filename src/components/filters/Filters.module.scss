@@ -151,6 +151,33 @@
 
         }
       }
+      &_color-checkbox{
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        & input[type="checkbox"]{
+          appearance: none;
+          background-color: var(--color);
+          border: 0 solid #fff;
+          border-radius: 50%;
+          margin: 0;
+          font: inherit;
+          margin-left: 2.5px;
+          width: 10px;
+          height: 10px;
+          cursor: pointer;
+          &:checked{
+            content: "";
+            margin: 0;
+
+            border: 2.5px solid #fff;
+            transition: .3s;
+            width: 15px;
+            height: 15px;
+          }
+
+        }
+      }
     }
   }
 }
